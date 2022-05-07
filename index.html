@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PolyFunctor</title>
+    <!-- fira sans font from google fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=Open+Sans&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- font awesome library  -->
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <!-- normalize css on all browsers  -->
+    <link rel="stylesheet" href="./css/normalize.css" />
+    <!-- reset css default style -->
+    <link rel="stylesheet" href="./css/reset.css" />
+    <!-- main css file  -->
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="container flex space-between">
+          <h1><span>P</span>oly<span>F</span>unctor</h1>
+          <div class="profile">
+            <a href="#">
+              <i class="fa-solid fa-user"></i>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Problem section Ie form -->
+      <section class="problem section-padding">
+        <div class="container flex column center">
+          <form action="">
+            <!-- fx -->
+            <div class="input-container">
+              <input type="text" id="fx" name="fx" autofocus required />
+              <span></span>
+              <label for="fx">f(x)</label>
+            </div>
+            <!-- condition iter or err  -->
+            <div class="input-container" id="conditionDiv">
+              <select name="condition" id="condition">
+                <option value="iter">Iterations</option>
+                <option value="err">Error</option>
+              </select>
+              <span></span>
+              <label for="condition">Condition</label>
+            </div>
+            <div class="input-container" id="conditionValue">
+              <input type="number" id="iter" name="iter" required />
+              <span></span>
+              <label for="iter">Max Iterations</label>
+            </div>
+            <!-- Method  -->
+            <div class="input-container">
+              <select name="method" id="method" required>
+                <option value="bi">Bisection</option>
+                <option value="false">False Position</option>
+                <option value="simple">Simple Fixed Point</option>
+                <option value="newton">Newton</option>
+                <option value="secant">Secant</option>
+              </select>
+              <span></span>
+              <label for="method">Method:</label>
+            </div>
+
+            <div class="methods-inputs">
+              <div class="input-container">
+                <input type="number" step="any" id="xl" name="xl" required />
+                <span></span>
+                <label for="xl">X Lower</label>
+              </div>
+              <div class="input-container">
+                <input type="number" step="any" id="xu" name="xu" required />
+                <span></span>
+                <label for="xu">X Upper</label>
+              </div>
+            </div>
+
+            <!-- submit -->
+            <input id="sub" type="submit" value="Calculate" />
+          </form>
+        </div>
+      </section>
+
+      <!-- Solution Section ie outputSection -->
+      <section class="solution section-padding">
+        <div class="container flex column center">
+          <table id="output">
+            <thead>
+              <tr></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+
+          <h4 id="root"></h4>
+        </div>
+      </section>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

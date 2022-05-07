@@ -1,0 +1,237 @@
+:root {
+  --bg-clr: linear-gradient(90deg, #8b62ff 0, #3b1bff);
+  /* --pr-clr: #1454b6; */
+  --pr-clr: #8b62ff;
+}
+/* ----------------------------------------------------------------------------- */
+/* components  */
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Small */
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+  }
+}
+/* Medium */
+@media (min-width: 992px) {
+  .container {
+    max-width: 970px;
+  }
+}
+/* Large */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
+}
+
+.section-padding {
+  padding-top: 3rem;
+}
+
+.flex {
+  display: flex;
+}
+.column {
+  flex-direction: column;
+}
+.center {
+  justify-content: center;
+  align-items: center;
+}
+.space-between {
+  justify-content: space-between;
+  align-items: center;
+}
+
+form .input-container {
+  position: relative;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 3.75rem;
+  transition: all 0.5s;
+}
+form .input-container:empty {
+  display: none;
+}
+
+form .input-container input,
+form .input-container select {
+  width: 100%;
+  padding: 0 5px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background-color: white;
+  outline: none;
+}
+form .input-container label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+form .input-container span::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--pr-clr);
+  transition: 0.5s;
+}
+
+form .input-container input:focus ~ label,
+form .input-container input:valid ~ label,
+form .input-container select:focus ~ label,
+form .input-container select:valid ~ label {
+  top: -6px;
+  color: var(--pr-clr);
+}
+
+form .input-container input:focus ~ span::before,
+form .input-container input:valid ~ span::before,
+form .input-container select:valid ~ span::before,
+form .input-container select:valid ~ span::before {
+  width: 100%;
+}
+
+@keyframes append-animate {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* animate new item*/
+.input-container {
+  animation: append-animate 0.3s linear;
+}
+
+/* To Automatic color fill from browser  */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+/* ---------------------------------------------------------------------- */
+
+body {
+  font-family: Fira Sans, Helvetica, Arial, sans-serif;
+  line-height: 1.81;
+  color: #000;
+  background-color: #fff;
+}
+
+/* header  */
+header {
+  padding: 0.4rem;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+header h1 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+header h1 span {
+  color: var(--pr-clr);
+  font-weight: bold;
+}
+header .profile a {
+  display: block;
+  padding-top: 3px;
+}
+header .profile a i {
+  color: var(--pr-clr);
+  font-size: 20px;
+}
+
+/* --------------------------------------------- */
+
+/* problem section ie form  */
+.problem form {
+  width: 70%;
+}
+
+.problem form input[type="submit"] {
+  padding: 10px 30px;
+  background-color: var(--pr-clr);
+  background-image: var(--bg-clr);
+  border: none;
+  border-radius: 2px;
+  color: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.problem form input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+/* solution section ie output  */
+.solution {
+  padding-top: 8rem;
+  padding-bottom: 3rem;
+}
+.solution .container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+@media (max-width: 768px) {
+  .solution .container {
+    overflow: auto;
+  }
+}
+.solution table {
+  border-collapse: collapse;
+  width: 70%;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .solution table {
+    font-size: 12px;
+  }
+}
+.solution table thead tr {
+  background-color: var(--pr-clr);
+  color: white;
+  text-align: left;
+  font-weight: bold;
+}
+.solution table td {
+  padding: 12px 15px;
+}
+@media (max-width: 768px) {
+  .solution table td {
+    padding: 3px 8px;
+  }
+}
+.solution table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+.solution table tbody tr:last-of-type {
+  border-bottom: 2px solid var(--pr-clr);
+}
+
+.solution h4 {
+  font-size: 1.3rem;
+  color: var(--pr-clr);
+  margin-top: 1.5rem;
+}
