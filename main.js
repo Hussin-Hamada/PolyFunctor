@@ -90,6 +90,19 @@ form.addEventListener("submit", (e) => {
       let fxu = document.getElementById("xu").value;
       falsePosition(fxl, fxu, i, eps);
       break;
+    case "simple":
+      let simpleXo = document.getElementById("xo").value;
+      simpleFixedPoint(simpleXo, i, eps);
+      break;
+    case "newton":
+      let xo = document.getElementById("xo").value;
+      newton(xo, i, eps);
+      break;
+    case "secant":
+      let xminus1 = document.getElementById("xminus1").value;
+      let sxo = document.getElementById("xo").value;
+      secant(xminus1, sxo, i, eps);
+      break;
   }
 });
 
@@ -98,8 +111,15 @@ function f(n) {
   let fx = document.getElementById("fx").value;
   let fn = fx.replace(/(\d+)x/gi, "$1*" + n);
   fn = fn.replace(/x/gi, n);
-  fn = fn.replace(/\^/g, "**");
-  return eval(fn);
+  return math.evaluate(fn);
+}
+
+function fDash(n) {
+  let fx = document.getElementById("fx").value;
+  let fDashX = math.derivative(fx, "x").toString();
+  let fn = fDashX.replace(/(\d+)x/gi, "$1*" + n);
+  fn = fDashX.replace(/x/gi, n);
+  return math.evaluate(fn);
 }
 
 // *********************Methods Functions************************
@@ -156,6 +176,7 @@ function falsePosition(xl, xu, iter, eps) {
   let i = 1;
   let xrold = 0;
   let err = 100;
+  let errorDisplay = "";
   while (iter === 0 ? err > eps : i <= iter) {
     xrold = xr;
     xr = Number((xu - (f(xu) * (xl - xu)) / (f(xl) - f(xu))).toFixed(3));
@@ -183,6 +204,101 @@ function falsePosition(xl, xu, iter, eps) {
     i++;
   }
   displayRoot(xr);
+}
+
+function simpleFixedPoint(xo, iter, eps) {
+  clearTable();
+  displayTableHead("i", "xi", "f(xi)", "err");
+
+  let xi = 0;
+  let i = 0;
+  let xrold = 0;
+  let err = 100;
+  let errorDisplay = "";
+  while (iter === 0 ? err > eps : i <= iter - 1) {
+    xi = xo;
+    err = (Math.abs((xi - xrold) / xi) * 100).toFixed(3);
+
+    //Displaying Each iteration
+    if (i === 0) errorDisplay = "-";
+    else errorDisplay = err;
+    let row = document.createElement("tr");
+    row.innerHTML = `
+    <td>${i}</td>
+    <td>${xi}</td>
+    <td>${f(xi).toFixed(3)}</td>
+    <td>${errorDisplay}</td>`;
+
+    tableBody.appendChild(row);
+    xo = f(xi).toFixed(3);
+    xrold = xi;
+    i++;
+  }
+  displayRoot(xi);
+}
+
+function newton(xo, iter, eps) {
+  clearTable();
+  displayTableHead("i", "xi", "f(xi)", "fDash(xi)", "err");
+
+  let xi = 0;
+  let i = 0;
+  let xrold = 0;
+  let err = 100;
+  let errorDisplay = "";
+  while (iter === 0 ? err > eps : i <= iter - 1) {
+    xi = xo;
+    err = (Math.abs((xi - xrold) / xi) * 100).toFixed(3);
+
+    //Displaying Each iteration
+    if (i === 0) errorDisplay = "-";
+    else errorDisplay = err;
+    let row = document.createElement("tr");
+    row.innerHTML = `
+    <td>${i}</td>
+    <td>${xi}</td>
+    <td>${f(xi).toFixed(3)}</td>
+    <td>${fDash(xi).toFixed(3)}</td>
+    <td>${errorDisplay}</td>`;
+
+    tableBody.appendChild(row);
+    xo = (xi - f(xi) / fDash(xi)).toFixed(3);
+    xrold = xi;
+    i++;
+  }
+  displayRoot(xi);
+}
+
+function secant(xminus1, xo, iter, eps) {
+  clearTable();
+  displayTableHead("i", "xi-1", "f(xi-1)", "xi", "f(xi)", "err");
+
+  let xi = 0;
+  let i = 0;
+  let err = 100;
+  let errorDisplay = "";
+  while (iter === 0 ? err > eps : i <= iter - 1) {
+    xi = xo;
+    err = (Math.abs((xi - xminus1) / xi) * 100).toFixed(3);
+
+    //Displaying Each iteration
+    if (i === 0) errorDisplay = "-";
+    else errorDisplay = err;
+    let row = document.createElement("tr");
+    row.innerHTML = `
+    <td>${i}</td>
+    <td>${xminus1}</td>
+    <td>${f(xminus1).toFixed(3)}</td>
+    <td>${xi}</td>
+    <td>${f(xi).toFixed(3)}</td>
+    <td>${errorDisplay}</td>`;
+
+    tableBody.appendChild(row);
+    xo = (xi - (f(xi) * (xminus1 - xi)) / (f(xminus1) - f(xi))).toFixed(3);
+    xminus1 = xi;
+    i++;
+  }
+  displayRoot(xi);
 }
 
 // *********************Display Function************************
