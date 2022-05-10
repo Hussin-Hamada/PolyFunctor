@@ -24,22 +24,84 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.5.1/math.min.js"></script>
   </head>
   <body>
+    <span class="cover display-none"></span>
     <main>
       <header>
         <div class="container flex space-between">
           <h1><span>P</span>oly<span>F</span>unctor</h1>
           <div class="profile">
-            <a href="#">
+            <a href="./" id="profile-icon">
               <i class="fa-solid fa-user"></i>
             </a>
           </div>
         </div>
       </header>
 
+      <div class="login-container display-none">
+        <i id="login-container-x-mark" class="fa-solid fa-xmark"></i>
+        <form class="" action="" id="login">
+          <h1 class="form-Title">Login</h1>
+          <p class="form-msg form-msg-error"></p>
+          <div class="input-container">
+            <input type="text" id="un-email" name="un-email" required />
+            <span></span>
+            <label for="un-email">UserName or Email</label>
+          </div>
+          <div class="input-container">
+            <input
+              type="password"
+              id="login-password"
+              name="login-password"
+              required
+            />
+            <span></span>
+            <label for="login-password">Password</label>
+          </div>
+          <input type="submit" value="Continue" />
+          <a href="#" class="form-link">Forget your password?</a>
+          <a id="linkCreateAccount" href="./" class="form-link"
+            >Don't have account? create a new account.</a
+          >
+        </form>
+        <form class="display-none" action="" id="createAccount">
+          <h1 class="form-Title">Create Account</h1>
+          <p class="form-msg form-msg-error"></p>
+          <div class="input-container">
+            <input type="text" id="fname" name="fname" required />
+            <span></span>
+            <label for="fname">First Name</label>
+          </div>
+          <div class="input-container">
+            <input type="text" id="lname" name="lname" required />
+            <span></span>
+            <label for="lname">Last Name</label>
+          </div>
+          <div class="input-container">
+            <input type="email" id="email" name="email" required />
+            <span></span>
+            <label for="email">Email</label>
+          </div>
+          <div class="input-container">
+            <input
+              type="password"
+              id="createPassword"
+              name="createPassword"
+              required
+            />
+            <span></span>
+            <label for="createPassword">Password</label>
+          </div>
+          <input type="submit" value="Continue" />
+          <a id="linkLogin" href="./" class="form-link"
+            >Already have account? then sign in.</a
+          >
+        </form>
+      </div>
+
       <!-- Problem section Ie form -->
       <section class="problem section-padding">
         <div class="container flex column center">
-          <form action="">
+          <form id="methodsForm" action="">
             <!-- fx -->
             <div class="input-container">
               <input type="text" id="fx" name="fx" autofocus required />
@@ -93,7 +155,7 @@
       </section>
 
       <!-- Solution Section ie outputSection -->
-      <section class="solution section-padding">
+      <section class="solution display-none section-padding">
         <div class="container flex column center">
           <table id="output">
             <thead>

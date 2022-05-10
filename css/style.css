@@ -31,6 +31,10 @@
   }
 }
 
+.display-none {
+  display: none;
+}
+
 .section-padding {
   padding-top: 3rem;
 }
@@ -91,6 +95,9 @@ form .input-container span::before {
   background-color: var(--pr-clr);
   transition: 0.5s;
 }
+form .input-error span::before {
+  background-color: #c33;
+}
 
 form .input-container input:focus ~ label,
 form .input-container input:valid ~ label,
@@ -118,6 +125,15 @@ form .input-container select:valid ~ span::before {
   }
 }
 
+form input[type="submit"] {
+  padding: 10px 30px;
+  background-color: var(--pr-clr);
+  background-image: var(--bg-clr);
+  border: none;
+  border-radius: 2px;
+  color: white;
+}
+
 /* animate new item*/
 .input-container {
   animation: append-animate 0.3s linear;
@@ -129,6 +145,10 @@ input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+
 /* ---------------------------------------------------------------------- */
 
 body {
@@ -136,6 +156,17 @@ body {
   line-height: 1.81;
   color: #000;
   background-color: #fff;
+  position: relative;
+}
+
+.cover {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 }
 
 /* header  */
@@ -162,24 +193,124 @@ header .profile a i {
 
 /* --------------------------------------------- */
 
-/* problem section ie form  */
+/* login form  */
+.login-container {
+  width: 500px;
+  min-width: 300px;
+  max-width: 600px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  background-color: white;
+  padding: 2rem;
+  padding-top: 6rem;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  border-bottom: 3px solid var(--pr-clr);
+  animation: left-pop-up 0.4s cubic-bezier(0, 0.02, 0.31, 1.07);
+  transition: all 0.4s;
+}
+@keyframes left-pop-up {
+  from {
+    left: 0;
+    opacity: 0;
+  }
+  to {
+    left: 50%;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    width: auto;
+    padding-top: 4rem;
+  }
+}
+
+.login-container i {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 110;
+  font-size: 2rem;
+  padding: 1.4rem;
+  color: white;
+}
+@media (max-width: 768px) {
+  .login-container i {
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+}
+.login-container i:hover {
+  cursor: pointer;
+}
+
+.login-container h1 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 3px 3px 0 0;
+  width: 100%;
+  background-color: var(--pr-clr);
+  background-image: var(--bg-clr);
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .login-container h1 {
+    font-size: 1.3rem;
+  }
+}
+.login-container .form-msg {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.login-container .form-msg-success {
+  color: var(--pr-clr);
+}
+.login-container .form-msg-error {
+  color: #cc3333;
+}
+
+.login-container input[type="submit"] {
+  width: 100%;
+  font-size: 1.1em;
+}
+
+.login-container a {
+  display: block;
+  text-align: center;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  color: var(--pr-clr);
+}
+@media (max-width: 768px) {
+  .login-container a {
+    font-size: 0.8rem;
+  }
+}
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+/* problem section */
 .problem form {
   width: 70%;
+  padding-bottom: 2rem;
+  position: relative;
 }
 
 .problem form input[type="submit"] {
-  padding: 10px 30px;
-  background-color: var(--pr-clr);
-  background-image: var(--bg-clr);
-  border: none;
-  border-radius: 2px;
-  color: white;
   position: absolute;
   left: 50%;
+  bottom: 0;
   transform: translateX(-50%);
-}
-.problem form input[type="submit"]:hover {
-  cursor: pointer;
 }
 
 /* solution section ie output  */
