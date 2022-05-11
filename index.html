@@ -29,10 +29,13 @@
       <header>
         <div class="container flex space-between">
           <h1><span>P</span>oly<span>F</span>unctor</h1>
-          <div class="profile">
-            <a href="./" id="profile-icon">
-              <i class="fa-solid fa-user"></i>
-            </a>
+          <div class="right flex center">
+            <button id="toMatrix">Matrix</button>
+            <div class="profile">
+              <a href="./" id="profile-icon">
+                <i class="fa-solid fa-user"></i>
+              </a>
+            </div>
           </div>
         </div>
       </header>
@@ -98,75 +101,136 @@
         </form>
       </div>
 
-      <!-- Problem section Ie form -->
-      <section class="problem section-padding">
-        <div class="container flex column center">
-          <form id="methodsForm" action="">
-            <!-- fx -->
-            <div class="input-container">
-              <input type="text" id="fx" name="fx" autofocus required />
-              <span></span>
-              <label for="fx">f(x)</label>
-            </div>
-            <!-- condition iter or err  -->
-            <div class="input-container" id="conditionDiv">
-              <select name="condition" id="condition">
-                <option value="iter">Iterations</option>
-                <option value="err">Error</option>
-              </select>
-              <span></span>
-              <label for="condition">Condition</label>
-            </div>
-            <div class="input-container" id="conditionValue">
-              <input type="number" id="iter" name="iter" required />
-              <span></span>
-              <label for="iter">Max Iterations</label>
-            </div>
-            <!-- Method  -->
-            <div class="input-container">
-              <select name="method" id="method" required>
-                <option value="bi">Bisection</option>
-                <option value="false">False Position</option>
-                <option value="simple">Simple Fixed Point</option>
-                <option value="newton">Newton</option>
-                <option value="secant">Secant</option>
-              </select>
-              <span></span>
-              <label for="method">Method:</label>
-            </div>
-
-            <div class="methods-inputs">
+      <!-- Function Mode  -->
+      <!-- -------------- -->
+      <div id="fMode" class="function-mode">
+        <!-- Problem section Ie form -->
+        <section class="problem section-padding">
+          <div class="container flex column center">
+            <form id="methodsForm" action="">
+              <!-- fx -->
               <div class="input-container">
-                <input type="number" step="any" id="xl" name="xl" required />
+                <input type="text" id="fx" name="fx" autofocus required />
                 <span></span>
-                <label for="xl">X Lower</label>
+                <label for="fx">f(x)</label>
               </div>
+              <!-- condition iter or err  -->
+              <div class="input-container" id="conditionDiv">
+                <select name="condition" id="condition">
+                  <option value="iter">Iterations</option>
+                  <option value="err">Error</option>
+                </select>
+                <span></span>
+                <label for="condition">Condition</label>
+              </div>
+              <div class="input-container" id="conditionValue">
+                <input type="number" id="iter" name="iter" required />
+                <span></span>
+                <label for="iter">Max Iterations</label>
+              </div>
+              <!-- Method  -->
               <div class="input-container">
-                <input type="number" step="any" id="xu" name="xu" required />
+                <select name="method" id="method" required>
+                  <option value="bi">Bisection</option>
+                  <option value="false">False Position</option>
+                  <option value="simple">Simple Fixed Point</option>
+                  <option value="newton">Newton</option>
+                  <option value="secant">Secant</option>
+                </select>
                 <span></span>
-                <label for="xu">X Upper</label>
+                <label for="method">Method:</label>
               </div>
-            </div>
 
-            <!-- submit -->
-            <input id="sub" type="submit" value="Calculate" />
-          </form>
-        </div>
-      </section>
+              <div class="methods-inputs">
+                <div class="input-container">
+                  <input type="number" step="any" id="xl" name="xl" required />
+                  <span></span>
+                  <label for="xl">X Lower</label>
+                </div>
+                <div class="input-container">
+                  <input type="number" step="any" id="xu" name="xu" required />
+                  <span></span>
+                  <label for="xu">X Upper</label>
+                </div>
+              </div>
 
-      <!-- Solution Section ie outputSection -->
-      <section class="solution display-none section-padding">
-        <div class="container flex column center">
-          <table id="output">
-            <thead>
-              <tr></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+              <!-- submit -->
+              <input id="sub" type="submit" value="Calculate" />
+            </form>
+          </div>
+        </section>
 
-          <h4 id="root"></h4>
-        </div>
-      </section>
+        <!-- Solution Section ie outputSection -->
+        <section class="solution display-none section-padding">
+          <div class="container flex column center">
+            <table id="output">
+              <thead>
+                <tr></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+
+            <h4 id="root"></h4>
+          </div>
+        </section>
+      </div>
+
+      <!-- Matrix Mode -->
+      <!-- ----------- -->
+      <div class="matrix-mode display-none" id="matrixMode">
+        <section class="problem section-padding">
+          <div class="container flex column center">
+            <form id="matrix-form" action="">
+              <!-- matrix rows and columns input  -->
+              <div class="matrix-rows-cols">
+                <p>Matrix:</p>
+                <div class="input-container">
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    id="rows"
+                    name="rows"
+                    required
+                  />
+                  <span></span>
+                  <label for="rows">Rows</label>
+                </div>
+                <span>X</span>
+                <div class="input-container">
+                  <input
+                    type="number"
+                    min="1"
+                    max="5"
+                    id="cols"
+                    name="cols"
+                    required
+                  />
+                  <span></span>
+                  <label for="cols">Cols</label>
+                </div>
+              </div>
+
+              <!-- matrix values Inputs  -->
+              <div class="matrix-values"></div>
+
+              <!-- Matrix Methods  -->
+              <div class="input-container">
+                <select name="matrixMethod" id="matrixMethod" required>
+                  <option value="gauss">Gauss Elimination</option>
+                  <option value="lu">Lu Decomposition</option>
+                  <option value="lup">Lu with partial Pivoting</option>
+                </select>
+                <span></span>
+                <label for="matrixMethod">Method:</label>
+              </div>
+
+              <!-- submit -->
+              <input id="matrixSub" type="submit" value="Calculate" />
+            </form>
+          </div>
+        </section>
+      </div>
     </main>
     <script type="module" src="./main.js"></script>
   </body>

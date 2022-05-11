@@ -73,6 +73,7 @@ form .input-container select {
   border: none;
   background-color: white;
   outline: none;
+  position: relative;
 }
 form .input-container label {
   position: absolute;
@@ -125,7 +126,8 @@ form .input-container select:valid ~ span::before {
   }
 }
 
-form input[type="submit"] {
+form input[type="submit"],
+button {
   padding: 10px 30px;
   background-color: var(--pr-clr);
   background-image: var(--bg-clr);
@@ -145,7 +147,8 @@ input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 
-input[type="submit"]:hover {
+input[type="submit"],
+button:hover {
   cursor: pointer;
 }
 
@@ -182,6 +185,11 @@ header h1 span {
   color: var(--pr-clr);
   font-weight: bold;
 }
+header button {
+  padding: 5px 30px;
+  margin-right: 2rem;
+}
+
 header .profile a {
   display: block;
   padding-top: 3px;
@@ -365,4 +373,49 @@ header .profile a i {
   font-size: 1.3rem;
   color: var(--pr-clr);
   margin-top: 1.5rem;
+}
+
+/* Matrix  */
+/* ----------------- */
+/* ----------------- */
+
+/* problem  */
+
+.problem .matrix-rows-cols {
+  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
+}
+@media (max-width: 768px) {
+  .problem .matrix-rows-cols {
+    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+}
+
+.problem .matrix-rows-cols p,
+.problem .matrix-rows-cols span {
+  color: var(--pr-clr);
+}
+@media (max-width: 768px) {
+  .problem .matrix-rows-cols p,
+  .problem .matrix-rows-cols span {
+    margin-bottom: 1rem;
+  }
+}
+
+.problem .matrix-rows-cols .input-container {
+  margin: 0 3rem;
+}
+@media (max-width: 768px) {
+  .problem .matrix-rows-cols .input-container {
+    margin-bottom: 1rem;
+  }
+}
+
+.problem .matrix-values {
+  display: grid;
+  grid-gap: 1rem;
 }

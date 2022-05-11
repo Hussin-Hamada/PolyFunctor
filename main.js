@@ -5,8 +5,6 @@ profile.addEventListener("click", (e) => {
   e.preventDefault();
   document.querySelector(".login-container").classList.remove("display-none");
   document.querySelector(".cover").classList.remove("display-none");
-  console.log(document.querySelector(".login-container").classList);
-  console.log(document.querySelector(".cover"));
 });
 
 const xLogin = document.getElementById("login-container-x-mark");
@@ -45,6 +43,22 @@ loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   setFormMsg(loginForm, "error", "Invalid username/password combination.");
+});
+
+// *********************matrix or function************************
+// *****************************************************************
+
+const matrixBtn = document.getElementById("toMatrix");
+matrixBtn.addEventListener("click", () => {
+  if (matrixBtn.textContent === "Matrix") {
+    matrixBtn.textContent = "Function";
+    document.getElementById("fMode").classList.add("display-none");
+    document.getElementById("matrixMode").classList.remove("display-none");
+  } else {
+    matrixBtn.textContent = "Matrix";
+    document.getElementById("fMode").classList.remove("display-none");
+    document.getElementById("matrixMode").classList.add("display-none");
+  }
 });
 
 // *********************Input UI************************
@@ -116,7 +130,6 @@ methodSelect.addEventListener("change", () => {
 // *********************Calculations*********************
 // *******************************************************
 let solutionSection = document.querySelector(".solution");
-console.log(solutionSection);
 methodsForm.addEventListener("submit", (e) => {
   e.preventDefault();
   solutionSection.classList.remove("display-none");
@@ -351,7 +364,7 @@ function secant(xminus1, xo, iter, eps) {
   displayRoot(xi);
 }
 
-// *********************Display Function************************
+// *********************table Display Function************************
 function clearTable() {
   tableHeadRow.innerHTML = "";
   tableBody.innerHTML = " ";
@@ -368,4 +381,51 @@ function displayTableHead(...heads) {
 function displayRoot(x) {
   let root = document.getElementById("root");
   root.textContent = `Root = ${x}`;
+}
+
+// *********************Matrix************************
+
+// Matrix Values
+const rowsInput = document.getElementById("rows");
+const colsInput = document.getElementById("cols");
+let matrixRows = 0;
+let matrixCols = 0;
+rowsInput.addEventListener("change", () => {
+  matrixRows = rowsInput.value < 6 && rowsInput.value > 1 ? rowsInput.value : 0;
+  if (matrixCols !== 0) addMatrixInputs(matrixRows, matrixCols);
+});
+colsInput.addEventListener("change", () => {
+  matrixCols = colsInput.value < 6 && colsInput.value > 1 ? colsInput.value : 0;
+  if (matrixRows !== 0) addMatrixInputs(matrixRows, matrixCols);
+});
+
+function addMatrixInputs(rows, cols) {
+  let matrixInputs = document.querySelector(".matrix-values");
+  matrixInputs.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+  matrixInputs.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  matrixInputs.innerHTML = "";
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let input = document.createElement("div");
+      input.setAttribute("class", "input-container");
+      if (j !== cols - 1) {
+        input.innerHTML = `
+        <input type="number" id="x${i + 1}${j + 1}" name="x${i + 1}${
+          j + 1
+        }" required />
+        <span></span>
+        <label for="x${i + 1}${j + 1}">x${j + 1}</label>
+        `;
+      } else {
+        input.innerHTML = `
+      <input type="number" id="d${i + 1}" name="d${i + 1}" required />
+      <span></span>
+      <label for="d${i + 1}">d${i + 1}</label>
+      `;
+      }
+
+      matrixInputs.appendChild(input);
+    }
+  }
 }
