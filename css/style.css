@@ -152,6 +152,12 @@ button:hover {
   cursor: pointer;
 }
 
+.sub {
+  position: relative;
+  top: 1ex;
+  font-size: 80%;
+}
+
 /* ---------------------------------------------------------------------- */
 
 body {
@@ -415,7 +421,73 @@ header .profile a i {
   }
 }
 
-.problem .matrix-values {
+.problem .matrix-values,
+.solution .matrix-container {
   display: grid;
   grid-gap: 1rem;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* matrix solution  */
+
+.matrix-mode .solution {
+  padding-top: 3rem;
+}
+
+.matrix-mode .solution .container {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  row-gap: 2rem;
+}
+
+.solution .m h2 {
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+@media (min-width: 768px) {
+  .solution .m h2 {
+    margin-right: 3rem;
+  }
+}
+.solution h2 {
+  margin-right: 2rem;
+  color: var(--pr-clr);
+  text-transform: uppercase;
+  font-size: 1.6rem;
+}
+.solution h2:last-of-type {
+  margin-right: 0;
+}
+@media (min-width: 768px) {
+  .solution h2:last-of-type {
+    margin-right: 2rem;
+  }
+}
+
+.solution .matrix-container {
+  row-gap: 0;
+}
+.solution .matrix-container span {
+  font-size: 1.4rem;
+  padding: 10px 10px;
+  color: var(--pr-clr);
+}
+.solution .matrix-container span.last-col-item {
+  border-left: 3px solid var(--pr-clr);
+}
+
+.solution .result {
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .solution .result {
+    margin: 0;
+  }
+  .solution .result h2 {
+    margin: 0;
+    margin-bottom: 1.2rem;
+  }
 }

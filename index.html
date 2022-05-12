@@ -181,36 +181,6 @@
         <section class="problem section-padding">
           <div class="container flex column center">
             <form id="matrix-form" action="">
-              <!-- matrix rows and columns input  -->
-              <div class="matrix-rows-cols">
-                <p>Matrix:</p>
-                <div class="input-container">
-                  <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    id="rows"
-                    name="rows"
-                    required
-                  />
-                  <span></span>
-                  <label for="rows">Rows</label>
-                </div>
-                <span>X</span>
-                <div class="input-container">
-                  <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    id="cols"
-                    name="cols"
-                    required
-                  />
-                  <span></span>
-                  <label for="cols">Cols</label>
-                </div>
-              </div>
-
               <!-- matrix values Inputs  -->
               <div class="matrix-values"></div>
 
@@ -228,6 +198,14 @@
               <!-- submit -->
               <input id="matrixSub" type="submit" value="Calculate" />
             </form>
+          </div>
+        </section>
+
+        <section class="solution section-padding">
+          <div class="container">
+            <div class="m flex center"></div>
+            <div id="matrix-container" class="matrix-container"></div>
+            <div class="result"></div>
           </div>
         </section>
       </div>

@@ -385,25 +385,8 @@ function displayRoot(x) {
 
 // *********************Matrix************************
 
-// Matrix Values
-const rowsInput = document.getElementById("rows");
-const colsInput = document.getElementById("cols");
-let matrixRows = 0;
-let matrixCols = 0;
-rowsInput.addEventListener("change", () => {
-  matrixRows = rowsInput.value < 6 && rowsInput.value > 1 ? rowsInput.value : 0;
-  if (matrixCols !== 0) addMatrixInputs(matrixRows, matrixCols);
-});
-colsInput.addEventListener("change", () => {
-  matrixCols = colsInput.value < 6 && colsInput.value > 1 ? colsInput.value : 0;
-  if (matrixRows !== 0) addMatrixInputs(matrixRows, matrixCols);
-});
-
 function addMatrixInputs(rows, cols) {
   let matrixInputs = document.querySelector(".matrix-values");
-  matrixInputs.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-  matrixInputs.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-  matrixInputs.innerHTML = "";
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
@@ -419,13 +402,132 @@ function addMatrixInputs(rows, cols) {
         `;
       } else {
         input.innerHTML = `
-      <input type="number" id="d${i + 1}" name="d${i + 1}" required />
-      <span></span>
-      <label for="d${i + 1}">d${i + 1}</label>
-      `;
+        <input type="number" id="x${i + 1}${j + 1}" name="x${i + 1}${
+          j + 1
+        }" required />
+        <span></span>
+        <label for="x${i + 1}${j + 1}">d${i + 1}</label>
+        `;
       }
 
       matrixInputs.appendChild(input);
     }
+  }
+}
+addMatrixInputs(3, 4);
+
+//Matrix Submit
+const matrixForm = document.getElementById("matrix-form");
+matrixForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const matrixMethod = document.getElementById("matrixMethod").value;
+  let matrix = create2DMatrix(3, 4);
+  switch (matrixMethod) {
+    case "gauss":
+      gauss(matrix);
+      break;
+    case "lu":
+      console.log("lu");
+      break;
+    case "lup":
+      console.log("lup");
+      break;
+  }
+});
+
+// Matrix Methods
+
+function create2DMatrix(rows, cols) {
+  let matrix = [];
+  for (let i = 0; i < rows; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < cols; j++) {
+      matrix[i][j] = document.getElementById(`x${i + 1}${j + 1}`).value;
+    }
+  }
+  return matrix;
+}
+
+//Gauwss Jordan Elimination
+function gauss(m) {
+  clearMatrixSolution();
+  let m21 = m[1][0] / m[0][0];
+  let m31 = m[2][0] / m[0][0];
+
+  //rule R2-(m21)R1 = R2
+  for (let j = 0; j < 4; j++) {
+    let r2 = m[1][j];
+    let r1 = m21 * m[0][j];
+    m[1][j] = r2 - r1;
+  }
+
+  //rule R3-(m31)R1 = R3
+  for (let j = 0; j < 4; j++) {
+    let r3 = m[2][j];
+    let r1 = m31 * m[0][j];
+    m[2][j] = r3 - r1;
+  }
+
+  let m32 = m[2][1] / m[1][1];
+
+  displayM(m21, m31, m32);
+
+  //rule R3-(m31)R1 = R3
+  for (let j = 0; j < 4; j++) {
+    let r3 = m[2][j];
+    let r1 = m32 * m[1][j];
+    m[2][j] = r3 - r1;
+  }
+
+  dispalyMatrix(m);
+
+  let x3 = m[2][3] / m[2][2];
+  let x2 = (m[1][3] - m[1][2] * x3) / m[1][1];
+  let x1 = (m[0][3] - (m[0][1] * x2 + m[0][2] * x3)) / m[0][0];
+
+  dispalayX(x1, x2, x3);
+}
+
+function displayM(m21, m31, m32) {
+  const mContainer = document.querySelector(".m");
+  let arr = [m21, m31, m32];
+  for (let i = 0; i < 3; i++) {
+    let m = document.createElement("h2");
+    m.innerHTML = `m<span class="sub">21</span> = ${arr[i]}`;
+    mContainer.appendChild(m);
+  }
+}
+
+function dispalyMatrix(matrix) {
+  const matrixContainer = document.getElementById("matrix-container");
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[0].length; j++) {
+      let span = document.createElement("span");
+      if (j === matrix[0].length - 1)
+        span.setAttribute("class", "last-col-item");
+      span.innerHTML = `${matrix[i][j]}`;
+      matrixContainer.appendChild(span);
+    }
+  }
+}
+
+function dispalayX(x1, x2, x3) {
+  const results = [x1, x2, x3];
+  const resultContainer = document.querySelector(".result");
+  for (let i = 0; i < 3; i++) {
+    let result = document.createElement("h2");
+    result.innerHTML = `
+    <h2>x<span class="sub">${i + 1}</span> = ${results[i]}`;
+    resultContainer.appendChild(result);
+  }
+}
+
+function clearMatrixSolution() {
+  let matrixContainer = document.querySelectorAll(
+    ".matrix-mode .solution .container *"
+  );
+
+  for (let i = 0; i < matrixContainer.length; i++) {
+    matrixContainer[i].innerHTML = "";
   }
 }
