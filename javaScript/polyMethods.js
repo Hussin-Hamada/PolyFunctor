@@ -36,6 +36,12 @@ methodsForm.addEventListener("submit", (e) => {
       let sxo = document.getElementById("xo").value;
       secant(xminus1, sxo, i, eps);
       break;
+    case "golden":
+      let gxl = document.getElementById("xl").value;
+      let gxu = document.getElementById("xu").value;
+      let condition = document.getElementById("goldenCondition").value;
+      golden(gxl, gxu, i, eps, condition);
+      break;
   }
 });
 
@@ -240,6 +246,66 @@ function secant(xminus1, xo, iter, eps) {
     i++;
   }
   displayRoot(xi);
+}
+
+function golden(xl, xu, iter, eps, condition) {
+  clearTable();
+  clearRoot();
+
+  if (eps !== 0) {
+    window.alert("You cant Use Error target in golden section Method");
+    return;
+  }
+
+  displayTableHead(
+    "i",
+    "xl",
+    "f(xl)",
+    "xu",
+    "f(xu)",
+    "x1",
+    "f(x1)",
+    "x2",
+    "f(x2)",
+    "d"
+  );
+  let i = 1;
+  let d = 0;
+  let x1 = 0;
+  let x2 = 0;
+  while (i <= iter) {
+    console.log(d);
+    console.log(xu);
+    console.log(xl);
+    d = Number(0.618 * (xu - xl)).toFixed(3);
+    x1 = (+xl + +d).toFixed(3);
+    x2 = (+xu - +d).toFixed(3);
+
+    //display
+    let row = document.createElement("tr");
+    row.innerHTML = `
+    <td>${i}</td>
+    <td>${xl}</td>
+    <td>${f(xl).toFixed(3)}</td>
+    <td>${xu}</td>
+    <td>${f(xu).toFixed(3)}</td>
+    <td>${x1}</td>
+    <td>${f(x1).toFixed(3)}</td>
+    <td>${x2}</td>
+    <td>${f(x2).toFixed(3)}</td>
+    <td>${d}</td>`;
+
+    tableBody.appendChild(row);
+
+    if (condition === "max") {
+      if (f(x2) > f(x1)) xu = x1;
+      else xl = x2;
+    } else if (condition === "min") {
+      if (f(x2) > f(x1)) xl = x2;
+      else xu = x1;
+    }
+    i++;
+  }
 }
 
 // *********************table Display Function************************

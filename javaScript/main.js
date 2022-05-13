@@ -44,6 +44,9 @@ let methodFirstInput = document.querySelectorAll(
 let methodSecondInput = document.querySelectorAll(
   ".methods-inputs .input-container"
 )[1];
+let methodThirdInput = document.querySelectorAll(
+  ".methods-inputs .input-container"
+)[2];
 
 let methodSelect = document.getElementById("method");
 
@@ -66,7 +69,7 @@ methodSelect.addEventListener("change", () => {
     <span></span>
     <label for="xo">Random Initial Value</label>`;
     methodSecondInput.innerHTML = "";
-  } else {
+  } else if (methodSelect.value === "secant") {
     methodFirstInput.innerHTML = `
     <input type="number" step="any" id="xminus1" name="xminus1" required />
     <span></span>
@@ -75,6 +78,23 @@ methodSelect.addEventListener("change", () => {
     <input type="number" step="any" id="xo" name="xo" required />
     <span></span>
     <label for="xo">Random Initial Value</label>`;
+  } else {
+    methodFirstInput.innerHTML = `
+    <input type="number" step="any" id="xl" name="xl" required />
+    <span></span>
+    <label for="xl">X Lower</label>`;
+    methodSecondInput.innerHTML = `
+    <input type="number" step="any" id="xu" name="xu" required />
+    <span></span>
+    <label for="xu">X Upper</label>`;
+    methodThirdInput.innerHTML = `
+    <select name="goldenCondition" id="goldenCondition" required>
+      <option value="max">Maximum</option>
+      <option value="min">Minimum Position</option>
+    </select>
+    <span></span>
+    <label for="goldenCondition">Find</label>
+    `;
   }
 });
 

@@ -45,6 +45,9 @@ matrixForm.addEventListener("submit", (e) => {
     case "lup":
       lup(matrix);
       break;
+    case "cramer":
+      cramer(matrix);
+      break;
   }
 });
 
@@ -110,7 +113,7 @@ function displayX(x1, x2, x3) {
   for (let i = 0; i < 3; i++) {
     let result = document.createElement("h2");
     result.innerHTML = `
-      <h2>x<span class="sub">${i + 1}</span> = ${Math.round(results[i])}`;
+      <h2>x<span class="sub">${i + 1}</span> = ${results[i].toFixed(1)}`;
     resultContainer.appendChild(result);
   }
 }
@@ -157,20 +160,20 @@ function calculateM(m, partialPivoting = false) {
   return arr;
 }
 
-function lu(m) {
+function lu(matrix) {
   clearMatrixSolution();
   let b = [3];
   for (let i = 0; i < 3; i++) {
-    b[i] = m[i][3];
+    b[i] = matrix[i][3];
   }
 
-  const ms = calculateM(m); // array contain m21, m31, m32
+  const ms = calculateM(matrix); // array contain m21, m31, m32
 
   let u = [];
   for (let i = 0; i < 3; i++) {
     u[i] = [];
     for (let j = 0; j < 3; j++) {
-      u[i][j] = m[i][j];
+      u[i][j] = matrix[i][j];
     }
   }
 
@@ -185,26 +188,27 @@ function lu(m) {
 
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 4; j++) {
-      m[i][j] = u[i][j];
+      matrix[i][j] = u[i][j];
     }
   }
 
-  m[0][3] = c1;
-  m[1][3] = c2;
-  m[2][3] = c3;
+  matrix[0][3] = c1;
+  matrix[1][3] = c2;
+  matrix[2][3] = c3;
 
-  dispalyMatrix(m);
+  dispalyMatrix(matrix);
 
-  let x3 = m[2][3] / m[2][2];
-  let x2 = (m[1][3] - m[1][2] * x3) / m[1][1];
-  let x1 = (m[0][3] - (m[0][1] * x2 + m[0][2] * x3)) / m[0][0];
+  let x3 = matrix[2][3] / matrix[2][2];
+  let x2 = (matrix[1][3] - matrix[1][2] * x3) / matrix[1][1];
+  let x1 =
+    (matrix[0][3] - (matrix[0][1] * x2 + matrix[0][2] * x3)) / matrix[0][0];
 
   displayX(x1, x2, x3);
 }
 
-function lup(m) {
+function lup(matrix) {
   clearMatrixSolution();
-  let matrices = math.lup(m);
+  let matrices = math.lup(matrix);
   displayM(
     matrices.L[2][0].toFixed(1),
     matrices.L[1][0].toFixed(1),
@@ -215,8 +219,56 @@ function lup(m) {
   let x3 = matrices.U[2][3] / matrices.U[2][2];
   let x2 = (matrices.U[1][3] - matrices.U[1][2] * x3) / matrices.U[1][1];
   let x1 =
-    (matrices.U[0][3] - (matrices.U[0][1] * x2 + m[0][2] * x3)) /
+    (matrices.U[0][3] - (matrices.U[0][1] * x2 + matrix[0][2] * x3)) /
     matrices.U[0][0];
+
+  displayX(x1, x2, x3);
+}
+
+function cramer(matrix) {
+  clearMatrixSolution();
+
+  let a = []; // a is 3x3 matrix of equation without the answers (without d)
+  let d = []; // d is 1x3 matrix of answers of equations
+  for (let i = 0; i < matrix.length; i++) {
+    a[i] = [];
+    for (let j = 0; j < matrix[0].length; j++) {
+      if (j === matrix[0].length - 1) {
+        d[i] = matrix[i][j];
+        continue;
+      }
+      a[i][j] = matrix[i][j];
+    }
+  }
+
+  console.log(a);
+  console.log(d);
+
+  let det = math.det(a);
+
+  //deep copy a to arrys x1,x2,x3
+  let arr1 = JSON.parse(JSON.stringify(a));
+  let arr2 = JSON.parse(JSON.stringify(a));
+  let arr3 = JSON.parse(JSON.stringify(a));
+
+  //swaping columns of x matrices with d
+  for (let i = 0; i < 3; i++) {
+    arr1[i][0] = d[i];
+    arr2[i][1] = d[i];
+    arr3[i][2] = d[i];
+  }
+
+  console.log(arr1);
+  console.log(arr2);
+  console.log(arr3);
+
+  let det1 = math.det(arr1);
+  let det2 = math.det(arr2);
+  let det3 = math.det(arr3);
+
+  let x1 = det1 / det;
+  let x2 = det2 / det;
+  let x3 = det3 / det;
 
   displayX(x1, x2, x3);
 }
