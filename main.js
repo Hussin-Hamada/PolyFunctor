@@ -172,9 +172,9 @@ methodsForm.addEventListener("submit", (e) => {
 //Calculate function from user
 function f(n) {
   let fx = document.getElementById("fx").value;
-  let fn = fx.replace(/(\d+)x/gi, "$1*" + n);
+  let fn = fx.replace(/(\d+)x/gi, `$1*(${n})`);
   fn = fn.replace(/x/gi, n);
-  return math.evaluate(fn);
+  return math.eval(fn);
 }
 
 function fDash(n) {
@@ -182,7 +182,7 @@ function fDash(n) {
   let fDashX = math.derivative(fx, "x").toString();
   let fn = fDashX.replace(/(\d+)x/gi, "$1*" + n);
   fn = fDashX.replace(/x/gi, n);
-  return math.evaluate(fn);
+  return math.eval(fn);
 }
 
 // *********************Methods Functions************************
@@ -192,9 +192,13 @@ let tableFoot = document.querySelector(".solution table tfoot");
 
 function bisection(xl, xu, iter, eps) {
   clearTable();
-  displayTableHead("i", "xl", "f(xl)", "xu", "f(xu)", "xr", "f(xr)", "err");
-  if (f(xl) * f(xu) >= 0) return "function has no solution.";
+  clearRoot();
+  if (f(xl) * f(xu) >= 0) {
+    window.alert("function has no solution.");
+    return;
+  }
 
+  displayTableHead("i", "xl", "f(xl)", "xu", "f(xu)", "xr", "f(xr)", "err");
   let xr = 0;
   let i = 1;
   let xrold = 0;
@@ -232,9 +236,13 @@ function bisection(xl, xu, iter, eps) {
 
 function falsePosition(xl, xu, iter, eps) {
   clearTable();
-  displayTableHead("i", "xl", "f(xl)", "xu", "f(xu)", "xr", "f(xr)", "err");
-  if (f(xl) * f(xu) >= 0) return "function has no solution.";
+  clearRoot();
+  if (f(xl) * f(xu) >= 0) {
+    window.alert("function has no solution.");
+    return;
+  }
 
+  displayTableHead("i", "xl", "f(xl)", "xu", "f(xu)", "xr", "f(xr)", "err");
   let xr = 0;
   let i = 1;
   let xrold = 0;
@@ -383,6 +391,11 @@ function displayRoot(x) {
   root.textContent = `Root = ${x}`;
 }
 
+function clearRoot() {
+  let root = document.getElementById("root");
+  root.textContent = ``;
+}
+
 // *********************Matrix************************
 
 function addMatrixInputs(rows, cols) {
@@ -427,7 +440,7 @@ matrixForm.addEventListener("submit", (e) => {
       gauss(matrix);
       break;
     case "lu":
-      console.log("lu");
+      lu(matrix);
       break;
     case "lup":
       console.log("lup");
@@ -451,33 +464,8 @@ function create2DMatrix(rows, cols) {
 //Gauwss Jordan Elimination
 function gauss(m) {
   clearMatrixSolution();
-  let m21 = m[1][0] / m[0][0];
-  let m31 = m[2][0] / m[0][0];
 
-  //rule R2-(m21)R1 = R2
-  for (let j = 0; j < 4; j++) {
-    let r2 = m[1][j];
-    let r1 = m21 * m[0][j];
-    m[1][j] = r2 - r1;
-  }
-
-  //rule R3-(m31)R1 = R3
-  for (let j = 0; j < 4; j++) {
-    let r3 = m[2][j];
-    let r1 = m31 * m[0][j];
-    m[2][j] = r3 - r1;
-  }
-
-  let m32 = m[2][1] / m[1][1];
-
-  displayM(m21, m31, m32);
-
-  //rule R3-(m31)R1 = R3
-  for (let j = 0; j < 4; j++) {
-    let r3 = m[2][j];
-    let r1 = m32 * m[1][j];
-    m[2][j] = r3 - r1;
-  }
+  calculateM(m);
 
   dispalyMatrix(m);
 
@@ -491,9 +479,10 @@ function gauss(m) {
 function displayM(m21, m31, m32) {
   const mContainer = document.querySelector(".m");
   let arr = [m21, m31, m32];
+  let order = ["21", "31", "32"];
   for (let i = 0; i < 3; i++) {
     let m = document.createElement("h2");
-    m.innerHTML = `m<span class="sub">21</span> = ${arr[i]}`;
+    m.innerHTML = `m<span class="sub">${order[i]}</span> = ${arr[i]}`;
     mContainer.appendChild(m);
   }
 }
@@ -530,4 +519,86 @@ function clearMatrixSolution() {
   for (let i = 0; i < matrixContainer.length; i++) {
     matrixContainer[i].innerHTML = "";
   }
+}
+
+function calculateM(m, partialPivoting = false) {
+  let m21 = m[1][0] / m[0][0];
+  let m31 = m[2][0] / m[0][0];
+
+  //rule R2-(m21)R1 = R2
+  for (let j = 0; j < 4; j++) {
+    let r2 = m[1][j];
+    let r1 = m21 * m[0][j];
+    m[1][j] = r2 - r1;
+  }
+
+  //rule R3-(m31)R1 = R3
+  for (let j = 0; j < 4; j++) {
+    let r3 = m[2][j];
+    let r1 = m31 * m[0][j];
+    m[2][j] = r3 - r1;
+  }
+
+  let m32 = m[2][1] / m[1][1];
+
+  displayM(m21, m31, m32);
+
+  //rule R3-(m31)R1 = R3
+  for (let j = 0; j < 4; j++) {
+    let r3 = m[2][j];
+    let r1 = m32 * m[1][j];
+    m[2][j] = r3 - r1;
+  }
+  let arr = [m21, m31, m32];
+  return arr;
+}
+
+function lu(m) {
+  clearMatrixSolution();
+  let b = [3];
+  for (let i = 0; i < 3; i++) {
+    b[i] = m[i][3];
+  }
+
+  const ms = calculateM(m); // array contain m21, m31, m32
+
+  let u = [];
+  for (let i = 0; i < 3; i++) {
+    u[i] = [];
+    for (let j = 0; j < 3; j++) {
+      u[i][j] = m[i][j];
+    }
+  }
+
+  let l = [];
+  l[0] = [1, 0, 0];
+  l[1] = [ms[0], 1, 0];
+  l[2] = [ms[1], ms[2], 1];
+
+  let c1 = b[0] / l[0][0];
+  let c2 = (b[1] - l[1][0] * c1) / l[1][1];
+  let c3 = (b[2] - (l[2][0] * c1 + l[2][1] * c2)) / l[2][2];
+
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 4; j++) {
+      m[i][j] = u[i][j];
+    }
+  }
+
+  m[0][3] = c1;
+  m[1][3] = c2;
+  m[2][3] = c3;
+
+  dispalyMatrix(m);
+
+  let x3 = m[2][3] / m[2][2];
+  let x2 = (m[1][3] - m[1][2] * x3) / m[1][1];
+  let x1 = (m[0][3] - (m[0][1] * x2 + m[0][2] * x3)) / m[0][0];
+
+  dispalayX(x1, x2, x3);
+}
+
+function luP(m) {
+  let max = 0;
+  for (let i = 0; i < m.length; i++) {}
 }
