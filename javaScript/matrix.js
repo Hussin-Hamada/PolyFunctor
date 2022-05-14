@@ -241,9 +241,6 @@ function cramer(matrix) {
     }
   }
 
-  console.log(a);
-  console.log(d);
-
   let det = math.det(a);
 
   //deep copy a to arrys x1,x2,x3
@@ -257,10 +254,6 @@ function cramer(matrix) {
     arr2[i][1] = d[i];
     arr3[i][2] = d[i];
   }
-
-  console.log(arr1);
-  console.log(arr2);
-  console.log(arr3);
 
   let det1 = math.det(arr1);
   let det2 = math.det(arr2);
