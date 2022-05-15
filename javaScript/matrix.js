@@ -39,6 +39,9 @@ matrixForm.addEventListener("submit", (e) => {
     case "gauss":
       gauss(matrix);
       break;
+    case "gaussJ":
+      gaussJordan(matrix);
+      break;
     case "lu":
       lu(matrix);
       break;
@@ -77,6 +80,34 @@ function gauss(m) {
   let x1 = (m[0][3] - (m[0][1] * x2 + m[0][2] * x3)) / m[0][0];
 
   displayX(x1, x2, x3);
+}
+
+function gaussJordan(matrix) {
+  clearMatrixSolution();
+  let t;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (i != j) {
+        t = matrix[j][i] / matrix[i][i];
+        for (let k = 0; k < 4; k++) {
+          matrix[j][k] = matrix[j][k] - matrix[i][k] * t;
+        }
+      }
+    }
+  }
+
+  for (let f = 0; f < 3; f++) {
+    matrix[f][3] = matrix[f][3] / matrix[f][f];
+    matrix[f][f] = 1.0;
+  }
+  dispalyMatrix(matrix);
+
+  let xs = []; //x1, x2, x3
+  for (let i = 0; i < matrix.length; i++) {
+    xs[i] = matrix[i][3];
+  }
+  console.log(xs);
+  displayX(xs[0], xs[1], xs[2]);
 }
 
 function displayM(m21, m31, m32) {
