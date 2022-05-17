@@ -47,13 +47,16 @@
 
       <div class="login-container display-none">
         <i id="login-container-x-mark" class="fa-solid fa-xmark"></i>
-        <form class="" action="" id="login">
+        <!-- added the action login -->
+        <form class="" action="php/login.php" id="login">
           <h1 class="form-Title">Login</h1>
-          <p class="form-msg form-msg-error"></p>
+          <!-- the login did not work when the next line was active -->
+          <!-- <p class="form-msg form-msg-error"></p> -->
           <div class="input-container">
-            <input type="text" id="un-email" name="un-email" required />
+            <!-- changed to only email -->
+            <input type="text" id="email" name="email" required />
             <span></span>
-            <label for="un-email">UserName or Email</label>
+            <label for="email">Email</label>
           </div>
           <div class="input-container">
             <input
@@ -66,12 +69,15 @@
             <label for="login-password">Password</label>
           </div>
           <input type="submit" value="Continue" />
+          <!-- added a button to logout -->
+          <a href="php/logout.php" class="form-link">Logout</a>
           <a href="#" class="form-link">Forget your password?</a>
           <a id="linkCreateAccount" href="./" class="form-link"
             >Don't have account? create a new account.</a
           >
         </form>
-        <form class="display-none" action="" id="createAccount">
+        <!-- added the action register -->
+        <form class="display-none" action="php/reg.php" id="createAccount">
           <h1 class="form-Title">Create Account</h1>
           <p class="form-msg form-msg-error"></p>
           <div class="input-container">
@@ -99,7 +105,8 @@
             <span></span>
             <label for="createPassword">Password</label>
           </div>
-          <input type="submit" value="Continue" />
+          <!-- added a name for the submit button -->
+          <input type="submit" value="Continue" name="submit" />
           <a id="linkLogin" href="./" class="form-link"
             >Already have account? then sign in.</a
           >
